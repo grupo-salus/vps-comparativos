@@ -1,0 +1,221 @@
+{
+  "aws": {
+    "provedor": "AWS",
+    "logo": "https://1000logos.net/wp-content/uploads/2016/10/Amazon-Logo.png",
+    "cor_identidade": "#ff9900",
+    "planos": [
+      {
+        "nome": "AWS m7a.2xlarge",
+        "preco": "R$ a definir",
+        "preco_promocional": null,
+        "preco_apos_promocao": null,
+        "periodo_promocao_meses": null,
+        "vcpu": 8,
+        "memoria_gb": 32,
+        "armazenamento": "100 GB",
+        "tipo_disco": "EBS gp3 (SSD em rede) – armazenamento conectado por rede, com redundância e escalabilidade automática, porém com latência um pouco maior",
+        "largura_banda": "Até 12.5 Gbps",
+        "processador": "AMD EPYC (4ª Geração)",
+        "escalabilidade": "Elástica (Auto Scaling + Load Balancer) – aumenta ou reduz recursos automaticamente conforme o tráfego",
+        "diferenciais": "Alta disponibilidade (SLA 99,99%), snapshots, rede global, integração com serviços AWS",
+        "observacoes": "Excelente desempenho e resiliência, mas custo alto e cobrança por tráfego"
+      },
+      {
+        "nome": "AWS m5.xlarge",
+        "preco": "R$ a definir",
+        "preco_promocional": null,
+        "preco_apos_promocao": null,
+        "periodo_promocao_meses": null,
+        "vcpu": 4,
+        "memoria_gb": 16,
+        "armazenamento": "70 GB",
+        "tipo_disco": "EBS gp3 (SSD em rede) – robusto e replicado, mas mais lento que NVMe local",
+        "largura_banda": "Até 10 Gbps",
+        "processador": "Intel Xeon Platinum (2ª Geração)",
+        "escalabilidade": "Escalável sob demanda – pode aumentar CPU e RAM pelo painel AWS",
+        "diferenciais": "Segurança IAM, integração nativa, confiabilidade corporativa",
+        "observacoes": "Boa performance, porém arquitetura anterior"
+      },
+      {
+        "nome": "AWS m7i.xlarge",
+        "preco": "R$ a definir",
+        "preco_promocional": null,
+        "preco_apos_promocao": null,
+        "periodo_promocao_meses": null,
+        "vcpu": 4,
+        "memoria_gb": 16,
+        "armazenamento": "50 GB",
+        "tipo_disco": "EBS gp3 (SSD em rede) – confiável, conectado via rede com redundância",
+        "largura_banda": "Até 12.5 Gbps",
+        "processador": "Intel Xeon Sapphire Rapids (4ª Geração)",
+        "escalabilidade": "Elástica e automatizada – balanceamento e ajuste dinâmico",
+        "diferenciais": "Suporte DDR5, eficiência energética, integração CloudWatch",
+        "observacoes": "Geração mais recente Intel, alta eficiência"
+      }
+    ]
+  },
+
+  "hostinger": {
+    "provedor": "Hostinger",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/0/03/Hostinger_Logo.png",
+    "cor_identidade": "#8B5CF6",
+    "planos": [
+      {
+        "nome": "KVM 4",
+        "preco": "R$ 139,99/mês",
+        "preco_promocional": "R$ 69,99/mês",
+        "preco_apos_promocao": "R$ 139,99/mês",
+        "periodo_promocao_meses": 12,
+        "vcpu": 4,
+        "memoria_gb": 16,
+        "armazenamento": "200 GB",
+        "tipo_disco": "SSD NVMe local",
+        "largura_banda": "1 Gbps • 16 TB/mês",
+        "processador": "AMD EPYC",
+        "escalabilidade": "Fixa (upgrade manual de plano)",
+        "diferenciais": "Backups semanais grátis, Firewall gerenciado, API pública, IA MCP Assistant, domínio .cloud grátis por 1 ano",
+        "observacoes": "Ideal para sites WordPress médios e projetos corporativos integrados via API"
+      },
+      {
+        "nome": "KVM 8",
+        "preco": "R$ 279,99/mês",
+        "preco_promocional": "R$ 139,99/mês",
+        "preco_apos_promocao": "R$ 279,99/mês",
+        "periodo_promocao_meses": 12,
+        "vcpu": 8,
+        "memoria_gb": 32,
+        "armazenamento": "400 GB",
+        "tipo_disco": "SSD NVMe local",
+        "largura_banda": "1 Gbps • 32 TB/mês",
+        "processador": "AMD EPYC",
+        "escalabilidade": "Fixa (upgrade manual de plano)",
+        "diferenciais": "Backups semanais grátis, Firewall gerenciado, API pública, IA MCP Assistant, domínio .cloud grátis por 1 ano",
+        "observacoes": "Excelente desempenho para múltiplos sites WordPress e aplicações de alto tráfego; domínio grátis incluso"
+      }
+    ]
+  },
+
+  "hostgator": {
+    "provedor": "HostGator",
+    "logo": "https://abrale.org.br/wp-content/uploads/2022/12/hostgator-logo.png",
+    "cor_identidade": "#00AEEF",
+    "planos": [
+      {
+        "nome": "VPS 4 vCPU",
+        "preco": "R$ 189,99/mês",
+        "preco_promocional": "R$ 113,99/mês",
+        "preco_apos_promocao": "R$ 189,99/mês",
+        "periodo_promocao_meses": 12,
+        "vcpu": 4,
+        "memoria_gb": 16,
+        "armazenamento": "200 GB",
+        "tipo_disco": "SSD NVMe local",
+        "largura_banda": "1 Gbps • Transferência ilimitada",
+        "processador": "AMD EPYC + RAM DDR5",
+        "escalabilidade": "Escalável sob demanda (upgrades instantâneos via painel)",
+        "diferenciais": "Servidores cloud no Brasil (Oracle Cloud Infrastructure - OCI), proteção DDoS, firewall gerenciado, SSL gratuito, IP dedicado, migração gratuita, suporte 24h em português, uptime 99,9%",
+        "observacoes": "Plano intermediário ideal para sites corporativos e aplicações com alto tráfego; inclui parcelamento em até 12x e 30 dias de reembolso"
+      },
+      {
+        "nome": "VPS 8 vCPU",
+        "preco": "R$ 353,39/mês",
+        "preco_promocional": "R$ 211,99/mês",
+        "preco_apos_promocao": "R$ 353,39/mês",
+        "periodo_promocao_meses": 12,
+        "vcpu": 8,
+        "memoria_gb": 32,
+        "armazenamento": "400 GB",
+        "tipo_disco": "SSD NVMe local",
+        "largura_banda": "1 Gbps • Transferência ilimitada",
+        "processador": "AMD EPYC + RAM DDR5",
+        "escalabilidade": "Escalável sob demanda (upgrade automático sem downtime)",
+        "diferenciais": "Infraestrutura Oracle Cloud no Brasil, proteção DDoS avançada, backups automáticos, provisionamento rápido, cPanel/WHM incluso, migração gratuita, suporte PT-BR 24/7",
+        "observacoes": "Plano avançado para múltiplos sites WordPress, e-commerces e APIs corporativas; 12x sem juros e 30 dias de reembolso"
+      }
+    ]
+  },
+
+  "godaddy": {
+    "provedor": "GoDaddy",
+    "logo": "https://1000logos.net/wp-content/uploads/2023/01/Godaddy-logo.png",
+    "cor_identidade": "#1BDBDB",
+    "planos": [
+      {
+        "nome": "VPS 4 vCPU",
+        "preco": "R$ 329,99/mês",
+        "preco_promocional": "R$ 219,99/mês",
+        "preco_apos_promocao": "R$ 329,99/mês",
+        "periodo_promocao_meses": 12,
+        "vcpu": 4,
+        "memoria_gb": 16,
+        "armazenamento": "200 GB",
+        "tipo_disco": "SSD NVMe",
+        "largura_banda": "Tráfego ilimitado",
+        "processador": "AMD (Infraestrutura virtual KVM)",
+        "escalabilidade": "Escalável sob demanda (upgrades de RAM, CPU e armazenamento via painel)",
+        "diferenciais": "Compatível com Linux e Windows, cPanel ou Plesk disponíveis, 3 IPs adicionais sob solicitação, backups de snapshot automáticos, proteção DDoS, SSL gratuito (1º ano), acesso root completo, datacenters globais",
+        "observacoes": "Plano intermediário ideal para sites corporativos e múltiplas hospedagens; uptime de 99,9% e suporte especializado 24h"
+      },
+      {
+        "nome": "VPS 8 vCPU",
+        "preco": "R$ 429,99/mês",
+        "preco_promocional": "R$ 279,99/mês",
+        "preco_apos_promocao": "R$ 429,99/mês",
+        "periodo_promocao_meses": 12,
+        "vcpu": 8,
+        "memoria_gb": 16,
+        "armazenamento": "400 GB",
+        "tipo_disco": "SSD NVMe",
+        "largura_banda": "Tráfego ilimitado",
+        "processador": "AMD (Infraestrutura virtual KVM)",
+        "escalabilidade": "Escalável sob demanda (upgrades imediatos via painel)",
+        "diferenciais": "Compatível com Linux e Windows, cPanel ou Plesk disponíveis, 3 IPs adicionais sob solicitação, backups de snapshot automáticos, proteção DDoS, SSL gratuito (1º ano), acesso root completo, datacenters globais",
+        "observacoes": "Plano de alto desempenho para aplicações empresariais, e-commerces e múltiplos sites; suporte 24/7 com monitoramento ativo de recursos"
+      }
+    ]
+  },
+
+  
+  "locaweb": {
+    "provedor": "Locaweb",
+    "logo": "https://logospng.org/wp-content/uploads/locaweb.png",
+    "cor_identidade": "#E30613",
+    "planos": [
+      {
+        "nome": "VPS 8 GB",
+        "preco": "R$ 179,90/mês",
+        "preco_promocional": "R$ 139,90/mês",
+        "preco_apos_promocao": "R$ 179,90/mês",
+        "periodo_promocao_meses": 3,
+        "vcpu": 4,
+        "memoria_gb": 8,
+        "armazenamento": "200 GB",
+        "tipo_disco": "SSD Intel de alta durabilidade",
+        "largura_banda": "Transferência ilimitada",
+        "processador": "Intel Xeon E5-2630 v4 (2,2 GHz)",
+        "escalabilidade": "Upgrade de plano (CPU/RAM/disco/transferência)",
+        "diferenciais": "Acesso root e console web; APIs para automação; gráficos de recursos (CPU/RAM/disco/rede); imagens pré-configuradas (WordPress, LAMP, MySQL, phpMyAdmin, Nginx, NodeJS, MariaDB, PostgreSQL); Linux (Debian 10–12, Ubuntu 20.04, Rocky 9, Alma 9) ou Windows Datacenter 2016/2022 com licença inclusa; 1 IP público incluso (IPs extras pagos); proteção DDoS em camada de gerenciamento; porta 25 bloqueada por padrão; SLA 99,9%; data center certificado ISAE 3402; certificação Intel Cloud Technology; pagamento em real; suporte 24/7 em português; Prêmio Reclame Aqui/RA1000.",
+        "observacoes": "Plano inicial para projetos médios/WordPress e PMEs; custo extra de armazenamento: R$ 10 por cada 10 GB/mês; ideal para quem precisa de autonomia e suporte nacional."
+      },
+      {
+        "nome": "VPS 32 GB",
+        "preco": "R$ 689,90/mês",
+        "preco_promocional": "R$ 539,90/mês",
+        "preco_apos_promocao": "R$ 689,90/mês",
+        "periodo_promocao_meses": 3,
+        "vcpu": 8,
+        "memoria_gb": 32,
+        "armazenamento": "350 GB",
+        "tipo_disco": "SSD Intel de alta durabilidade",
+        "largura_banda": "Transferência ilimitada",
+        "processador": "Intel Xeon E5-2630 v4 (2,2 GHz)",
+        "escalabilidade": "Upgrade de plano imediato via painel",
+        "diferenciais": "Acesso root e console web; APIs; gráficos de recursos; imagens pré-configuradas; Linux ou Windows com licença; 1 IP incluso (IPs adicionais pagos); proteção DDoS; SLA 99,9%; data center ISAE 3402; certificação Intel Cloud Technology; pagamento em real; suporte 24/7 em português.",
+        "observacoes": "Indicado para e-commerces, múltiplos sites e APIs com maior IO e armazenamento; política de porta 25 e UDP conforme segurança do ambiente."
+      }
+    ]
+  }
+
+  
+}
+

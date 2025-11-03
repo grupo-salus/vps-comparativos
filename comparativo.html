@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparativo de Planos VPS</title>
+    <link rel="stylesheet" href="comparativo.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Comparativo de Planos VPS</h1>
+        </header>
+
+        <div class="comparison-table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr class="table-header-logos">
+                        <th class="resource-header"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Mapeamento de provedor para classe CSS
+        const provedorToClass = {
+            'aws': 'aws-col',
+            'hostinger': 'hostinger-col',
+            'hostgator': 'hostgator-col',
+            'godaddy': 'godaddy-col',
+            'locaweb': 'locaweb-col'
+        };
+
+        // Recursos da tabela
+        const recursos = [
+            { key: 'vcpu', label: 'vCPU' },
+            { key: 'memoria_gb', label: 'Memória (GB)' },
+            { key: 'armazenamento', label: 'Armazenamento' },
+            { key: 'tipo_disco', label: 'Tipo de Disco' },
+            { key: 'largura_banda', label: 'Largura de Banda' },
+            { key: 'processador', label: 'Processador' },
+            { key: 'escalabilidade', label: 'Escalabilidade' },
+            { key: 'diferenciais', label: 'Diferenciais' },
+            { key: 'observacoes', label: 'Observações' }
+        ];
+
+        // Carregar JSON e gerar tabela
+        async function carregarTabela() {
+            try {
+                const response = await fetch('comparativo.json');
+                const data = await response.json();
+                
+                // Coletar todos os planos em uma lista plana
+                const todosPlanos = [];
+                for (const [provedorKey, provedorData] of Object.entries(data)) {
+                    const classeCol = provedorToClass[provedorKey] || '';
+                    provedorData.planos.forEach(plano => {
+                        todosPlanos.push({
+                            ...plano,
+                            provedor: provedorKey,
+                            classeCol: classeCol,
+                            logo: provedorData.logo,
+                            corIdentidade: provedorData.cor_identidade
+                        });
+                    });
+                }
+
+                // Gerar cabeçalho
+                const thead = document.querySelector('.table-header-logos');
+                todosPlanos.forEach(plano => {
+                    const th = document.createElement('th');
+                    th.className = plano.classeCol;
+                    
+                    let precoHTML = '';
+                    if (plano.preco_promocional && plano.preco_promocional !== null) {
+                        // Mostrar preço promocional com destaque
+                        precoHTML = `
+                            <div class="table-price-promo">${plano.preco_promocional}</div>
+                            <div class="table-price-original">${plano.preco}</div>
+                            ${plano.preco_apos_promocao && plano.preco_apos_promocao !== null 
+                                ? `<div class="table-price-after">Após ${plano.periodo_promocao_meses || 12} meses: ${plano.preco_apos_promocao}</div>` 
+                                : ''}
+                        `;
+                    } else {
+                        // Mostrar apenas preço normal
+                        precoHTML = `<div class="table-price">${plano.preco}</div>`;
+                    }
+                    
+                    th.innerHTML = `
+                        <img src="${plano.logo}" alt="${plano.provedor} Logo" class="table-logo" onerror="this.style.display='none'">
+                        <div class="table-plan-name">${plano.nome}</div>
+                        ${precoHTML}
+                    `;
+                    thead.appendChild(th);
+                });
+
+                // Gerar linhas de recursos
+                const tbody = document.querySelector('.comparison-table tbody');
+                recursos.forEach(recurso => {
+                    const tr = document.createElement('tr');
+                    
+                    // Coluna de recurso (sticky)
+                    const tdResource = document.createElement('td');
+                    tdResource.className = 'resource-name';
+                    tdResource.textContent = recurso.label;
+                    tr.appendChild(tdResource);
+
+                    // Colunas de dados para cada plano
+                    todosPlanos.forEach(plano => {
+                        const td = document.createElement('td');
+                        td.className = plano.classeCol;
+                        
+                        let valor = plano[recurso.key];
+                        if (recurso.key === 'memoria_gb') {
+                            valor = plano.memoria_gb;
+                        }
+                        
+                        td.textContent = valor || 'N/A';
+                        tr.appendChild(td);
+                    });
+
+                    tbody.appendChild(tr);
+                });
+
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            }
+        }
+
+        // Executar quando a página carregar
+        document.addEventListener('DOMContentLoaded', carregarTabela);
+    </script>
+</body>
+</html>
