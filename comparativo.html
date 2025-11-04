@@ -16,7 +16,15 @@
             </div>
         </header>
 
-        <div class="table-controls">
+        <div class="top-controls-row">
+            <div class="analysis-section-compact" id="analysisSection">
+                <div class="analysis-content" id="analysisContent">
+                    <!-- Conteúdo será preenchido via JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <div class="table-controls-fixed">
             <button id="btnMaximizado" class="btn-view-mode btn-maximizado active" title="Modo Maximizado - Todas as colunas visíveis" disabled>
                 <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
@@ -43,13 +51,6 @@
                 <tbody>
                 </tbody>
             </table>
-        </div>
-
-        <div class="analysis-section" id="analysisSection">
-            <h2>Análise de Preços</h2>
-            <div class="analysis-content" id="analysisContent">
-                <!-- Conteúdo será preenchido via JavaScript -->
-            </div>
         </div>
     </div>
 
@@ -355,28 +356,26 @@
 
             // Gerar HTML da análise
             const analysisContent = document.getElementById('analysisContent');
-            let html = '<div class="analysis-grid">';
+            let html = '<div class="analysis-grid-compact">';
 
             // 4 vCPU
-            html += '<div class="analysis-card">';
-            html += '<h3>Planos com 4 vCPU</h3>';
+            html += '<div class="analysis-card-compact">';
+            html += '<h3 class="analysis-title-compact">4 vCPU</h3>';
             if (menor4vCPU) {
                 html += `<div class="analysis-item">`;
                 html += `<span class="analysis-label">Menor Preço:</span>`;
+                html += `<div class="analysis-price-row">`;
                 html += `<span class="analysis-value menor">${menor4vCPU.precoDisplay}</span>`;
-                html += `<div class="analysis-provider-badge" style="background-color: ${menor4vCPU.corIdentidade || '#4CAF50'}; border-color: ${menor4vCPU.corIdentidade || '#4CAF50'};">`;
-                html += `<span class="analysis-provider-name"><strong>${menor4vCPU.nome}</strong></span>`;
-                html += `<span class="analysis-provider-label">${menor4vCPU.provedor}</span>`;
+                html += `<span class="analysis-provider-badge" style="background-color: ${menor4vCPU.corIdentidade || '#4CAF50'}; border-color: ${menor4vCPU.corIdentidade || '#4CAF50'}; opacity: 0.9;">${menor4vCPU.provedor}</span>`;
                 html += `</div>`;
                 html += `</div>`;
             }
             if (maior4vCPU) {
                 html += `<div class="analysis-item">`;
                 html += `<span class="analysis-label">Maior Preço:</span>`;
+                html += `<div class="analysis-price-row">`;
                 html += `<span class="analysis-value maior">${maior4vCPU.precoDisplay}</span>`;
-                html += `<div class="analysis-provider-badge" style="background-color: ${maior4vCPU.corIdentidade || '#ff9800'}; border-color: ${maior4vCPU.corIdentidade || '#ff9800'}; opacity: 0.8;">`;
-                html += `<span class="analysis-provider-name"><strong>${maior4vCPU.nome}</strong></span>`;
-                html += `<span class="analysis-provider-label">${maior4vCPU.provedor}</span>`;
+                html += `<span class="analysis-provider-badge" style="background-color: ${maior4vCPU.corIdentidade || '#ff9800'}; border-color: ${maior4vCPU.corIdentidade || '#ff9800'}; opacity: 0.8;">${maior4vCPU.provedor}</span>`;
                 html += `</div>`;
                 html += `</div>`;
             }
@@ -386,25 +385,23 @@
             html += '</div>';
 
             // 8 vCPU
-            html += '<div class="analysis-card">';
-            html += '<h3>Planos com 8 vCPU</h3>';
+            html += '<div class="analysis-card-compact">';
+            html += '<h3 class="analysis-title-compact">8 vCPU</h3>';
             if (menor8vCPU) {
                 html += `<div class="analysis-item">`;
                 html += `<span class="analysis-label">Menor Preço:</span>`;
+                html += `<div class="analysis-price-row">`;
                 html += `<span class="analysis-value menor">${menor8vCPU.precoDisplay}</span>`;
-                html += `<div class="analysis-provider-badge" style="background-color: ${menor8vCPU.corIdentidade || '#4CAF50'}; border-color: ${menor8vCPU.corIdentidade || '#4CAF50'}; opacity: 0.9;">`;
-                html += `<span class="analysis-provider-name"><strong>${menor8vCPU.nome}</strong></span>`;
-                html += `<span class="analysis-provider-label">${menor8vCPU.provedor}</span>`;
+                html += `<span class="analysis-provider-badge" style="background-color: ${menor8vCPU.corIdentidade || '#4CAF50'}; border-color: ${menor8vCPU.corIdentidade || '#4CAF50'}; opacity: 0.9;">${menor8vCPU.provedor}</span>`;
                 html += `</div>`;
                 html += `</div>`;
             }
             if (maior8vCPU) {
                 html += `<div class="analysis-item">`;
                 html += `<span class="analysis-label">Maior Preço:</span>`;
+                html += `<div class="analysis-price-row">`;
                 html += `<span class="analysis-value maior">${maior8vCPU.precoDisplay}</span>`;
-                html += `<div class="analysis-provider-badge" style="background-color: ${maior8vCPU.corIdentidade || '#ff9800'}; border-color: ${maior8vCPU.corIdentidade || '#ff9800'}; opacity: 0.8;">`;
-                html += `<span class="analysis-provider-name"><strong>${maior8vCPU.nome}</strong></span>`;
-                html += `<span class="analysis-provider-label">${maior8vCPU.provedor}</span>`;
+                html += `<span class="analysis-provider-badge" style="background-color: ${maior8vCPU.corIdentidade || '#ff9800'}; border-color: ${maior8vCPU.corIdentidade || '#ff9800'}; opacity: 0.8;">${maior8vCPU.provedor}</span>`;
                 html += `</div>`;
                 html += `</div>`;
             }
