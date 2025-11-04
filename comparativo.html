@@ -44,6 +44,13 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="analysis-section" id="analysisSection">
+            <h2>Análise de Preços</h2>
+            <div class="analysis-content" id="analysisContent">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -116,6 +123,9 @@
 
             // Mostrar botão limpar
             document.getElementById('btnLimpar').style.display = 'inline-block';
+            
+            // Atualizar análise com planos visíveis
+            gerarAnalisePrecos();
         }
 
         // Função para mostrar todos os planos
@@ -136,6 +146,9 @@
             planosSelecionados.clear();
             document.querySelectorAll('.plan-checkbox').forEach(cb => cb.checked = false);
             atualizarEstadoBotao();
+            
+            // Atualizar análise com todos os planos
+            gerarAnalisePrecos();
         }
 
         // Carregar JSON e gerar tabela
@@ -251,9 +264,157 @@
                 document.getElementById('btnComparar').addEventListener('click', compararPlanos);
                 document.getElementById('btnLimpar').addEventListener('click', mostrarTodos);
 
+                // Gerar análise de preços
+                gerarAnalisePrecos(todosPlanos);
+
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
             }
+        }
+
+        // Função para extrair valor numérico do preço
+        function extrairValorPreco(precoStr) {
+            if (!precoStr || precoStr.includes('a definir') || precoStr.includes('definir')) {
+                return null;
+            }
+            
+            // Remove "R$", espaços, pontos de milhar e vírgulas
+            const valorLimpo = precoStr
+                .replace(/R\$\s*/gi, '')
+                .replace(/\./g, '')
+                .replace(/,/g, '.')
+                .replace(/\s+/g, '')
+                .trim();
+            
+            const valor = parseFloat(valorLimpo);
+            return isNaN(valor) ? null : valor;
+        }
+
+        // Função para obter planos visíveis
+        function obterPlanosVisiveis() {
+            const planosVisiveis = [];
+            todosPlanos.forEach((plano, index) => {
+                const th = document.querySelector(`.comparison-table th[data-plan-index="${index}"]`);
+                if (th && th.style.display !== 'none') {
+                    planosVisiveis.push(plano);
+                }
+            });
+            return planosVisiveis.length > 0 ? planosVisiveis : todosPlanos;
+        }
+
+        // Função para gerar análise de preços
+        function gerarAnalisePrecos(planos) {
+            // Obter planos visíveis se houver filtro aplicado
+            const planosParaAnalise = planos || obterPlanosVisiveis();
+            
+            // Filtrar planos por vCPU e extrair preços válidos
+            const planos4vCPU = planosParaAnalise
+                .filter(p => p.vcpu === 4)
+                .map(p => {
+                    const precoUsar = p.preco_promocional && p.preco_promocional !== null 
+                        ? p.preco_promocional 
+                        : p.preco;
+                    const valor = extrairValorPreco(precoUsar);
+                    return {
+                        ...p,
+                        precoDisplay: precoUsar,
+                        valor: valor
+                    };
+                })
+                .filter(p => p.valor !== null);
+
+            const planos8vCPU = planosParaAnalise
+                .filter(p => p.vcpu === 8)
+                .map(p => {
+                    const precoUsar = p.preco_promocional && p.preco_promocional !== null 
+                        ? p.preco_promocional 
+                        : p.preco;
+                    const valor = extrairValorPreco(precoUsar);
+                    return {
+                        ...p,
+                        precoDisplay: precoUsar,
+                        valor: valor
+                    };
+                })
+                .filter(p => p.valor !== null);
+
+            // Encontrar menores e maiores preços
+            const menor4vCPU = planos4vCPU.length > 0 
+                ? planos4vCPU.reduce((min, p) => p.valor < min.valor ? p : min)
+                : null;
+            const maior4vCPU = planos4vCPU.length > 0 
+                ? planos4vCPU.reduce((max, p) => p.valor > max.valor ? p : max)
+                : null;
+
+            const menor8vCPU = planos8vCPU.length > 0 
+                ? planos8vCPU.reduce((min, p) => p.valor < min.valor ? p : min)
+                : null;
+            const maior8vCPU = planos8vCPU.length > 0 
+                ? planos8vCPU.reduce((max, p) => p.valor > max.valor ? p : max)
+                : null;
+
+            // Gerar HTML da análise
+            const analysisContent = document.getElementById('analysisContent');
+            let html = '<div class="analysis-grid">';
+
+            // 4 vCPU
+            html += '<div class="analysis-card">';
+            html += '<h3>Planos com 4 vCPU</h3>';
+            if (menor4vCPU) {
+                html += `<div class="analysis-item">`;
+                html += `<span class="analysis-label">Menor Preço:</span>`;
+                html += `<span class="analysis-value menor">${menor4vCPU.precoDisplay}</span>`;
+                html += `<div class="analysis-provider-badge" style="background-color: ${menor4vCPU.corIdentidade || '#4CAF50'}; border-color: ${menor4vCPU.corIdentidade || '#4CAF50'};">`;
+                html += `<span class="analysis-provider-name"><strong>${menor4vCPU.nome}</strong></span>`;
+                html += `<span class="analysis-provider-label">${menor4vCPU.provedor}</span>`;
+                html += `</div>`;
+                html += `</div>`;
+            }
+            if (maior4vCPU) {
+                html += `<div class="analysis-item">`;
+                html += `<span class="analysis-label">Maior Preço:</span>`;
+                html += `<span class="analysis-value maior">${maior4vCPU.precoDisplay}</span>`;
+                html += `<div class="analysis-provider-badge" style="background-color: ${maior4vCPU.corIdentidade || '#ff9800'}; border-color: ${maior4vCPU.corIdentidade || '#ff9800'}; opacity: 0.8;">`;
+                html += `<span class="analysis-provider-name"><strong>${maior4vCPU.nome}</strong></span>`;
+                html += `<span class="analysis-provider-label">${maior4vCPU.provedor}</span>`;
+                html += `</div>`;
+                html += `</div>`;
+            }
+            if (!menor4vCPU && !maior4vCPU) {
+                html += `<div class="analysis-item">Nenhum plano com preço definido</div>`;
+            }
+            html += '</div>';
+
+            // 8 vCPU
+            html += '<div class="analysis-card">';
+            html += '<h3>Planos com 8 vCPU</h3>';
+            if (menor8vCPU) {
+                html += `<div class="analysis-item">`;
+                html += `<span class="analysis-label">Menor Preço:</span>`;
+                html += `<span class="analysis-value menor">${menor8vCPU.precoDisplay}</span>`;
+                html += `<div class="analysis-provider-badge" style="background-color: ${menor8vCPU.corIdentidade || '#4CAF50'}; border-color: ${menor8vCPU.corIdentidade || '#4CAF50'}; opacity: 0.9;">`;
+                html += `<span class="analysis-provider-name"><strong>${menor8vCPU.nome}</strong></span>`;
+                html += `<span class="analysis-provider-label">${menor8vCPU.provedor}</span>`;
+                html += `</div>`;
+                html += `</div>`;
+            }
+            if (maior8vCPU) {
+                html += `<div class="analysis-item">`;
+                html += `<span class="analysis-label">Maior Preço:</span>`;
+                html += `<span class="analysis-value maior">${maior8vCPU.precoDisplay}</span>`;
+                html += `<div class="analysis-provider-badge" style="background-color: ${maior8vCPU.corIdentidade || '#ff9800'}; border-color: ${maior8vCPU.corIdentidade || '#ff9800'}; opacity: 0.8;">`;
+                html += `<span class="analysis-provider-name"><strong>${maior8vCPU.nome}</strong></span>`;
+                html += `<span class="analysis-provider-label">${maior8vCPU.provedor}</span>`;
+                html += `</div>`;
+                html += `</div>`;
+            }
+            if (!menor8vCPU && !maior8vCPU) {
+                html += `<div class="analysis-item">Nenhum plano com preço definido</div>`;
+            }
+            html += '</div>';
+
+            html += '</div>';
+            analysisContent.innerHTML = html;
         }
 
         // Variável para controlar o modo de visualização
