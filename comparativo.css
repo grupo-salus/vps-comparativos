@@ -244,7 +244,7 @@ header h1 {
     font-weight: 600;
     color: #ffffff;
     border-bottom: 2px solid #333333;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     vertical-align: top;
 }
 
@@ -348,35 +348,35 @@ header h1 {
 }
 
 .table-plan-name {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #ffffff;
     margin-bottom: 8px;
 }
 
 .table-price {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #ffffff;
     margin-top: 4px;
 }
 
 .table-price-promo {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #4CAF50;
     margin-top: 4px;
 }
 
 .table-price-original {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #999;
     text-decoration: line-through;
     margin-top: 2px;
 }
 
 .table-price-after {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     color: #ffffff;
     margin-top: 4px;
     font-style: normal;
@@ -394,7 +394,7 @@ header h1 {
     padding: 14px 12px;
     border-bottom: 1px solid #333333;
     color: #e0e0e0;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 1.5;
     vertical-align: top;
     max-width: 200px;
