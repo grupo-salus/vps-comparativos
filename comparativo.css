@@ -28,8 +28,54 @@ header {
 header h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     color: #ffffff;
+}
+
+.comparison-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.btn-comparar,
+.btn-limpar {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ffffff;
+}
+
+.btn-comparar {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+}
+
+.btn-comparar:hover:not(:disabled) {
+    background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.btn-comparar:disabled {
+    background: #555555;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn-limpar {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+}
+
+.btn-limpar:hover {
+    background: linear-gradient(135deg, #f57c00 0%, #ff9800 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
 }
 
 .subtitle {
@@ -37,10 +83,102 @@ header h1 {
     color: #cccccc;
 }
 
+.table-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 0 20px;
+}
+
+.btn-view-mode {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 2px solid #666666;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-view-mode:hover:not(:disabled) {
+    background: linear-gradient(135deg, #3d3d3d 0%, #2a2a2a 100%);
+    border-color: #888888;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-view-mode:disabled {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border-color: #4CAF50;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+.btn-view-mode.active {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border-color: #4CAF50;
+}
+
+.btn-view-mode.active:hover {
+    background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+}
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
 .comparison-table-container {
     margin-top: 40px;
-    overflow-x: auto;
     padding: 20px 0;
+}
+
+/* Modo Maximizado: sem scroll, todas as colunas visíveis (comportamento atual) */
+.comparison-table-container.maximized-mode {
+    overflow-x: visible;
+    width: 100%;
+}
+
+.comparison-table-container.maximized-mode .comparison-table {
+    width: 100%;
+    table-layout: auto;
+    max-width: 100%;
+}
+
+/* Modo Scroll: com scroll lateral, mais responsivo */
+.comparison-table-container.scroll-mode {
+    overflow-x: auto;
+    overflow-y: visible;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.comparison-table-container.scroll-mode .comparison-table {
+    min-width: max-content;
+    table-layout: auto;
+}
+
+.comparison-table-container.scroll-mode .comparison-table th,
+.comparison-table-container.scroll-mode .comparison-table td {
+    min-width: 300px;
+    white-space: normal;
+}
+
+.comparison-table-container.scroll-mode .comparison-table th.resource-header,
+.comparison-table-container.scroll-mode .comparison-table td.resource-name {
+    min-width: 150px;
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
 }
 
 .comparison-table {
@@ -69,23 +207,95 @@ header h1 {
 .table-header-logos th {
     text-align: center;
     padding: 20px 12px;
+    position: relative;
+    vertical-align: top;
+}
+
+.plan-column-selectable {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+
+.plan-column-selectable:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.plan-checkbox-container {
+    position: relative;
+    display: block;
+    margin-bottom: 12px;
+    cursor: pointer;
+    width: 100%;
+    pointer-events: none;
+}
+
+.plan-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: relative;
+    display: inline-block;
+    height: 32px;
+    width: 32px;
+    background-color: #333333;
+    border: 2px solid #666666;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    margin: 0 auto;
+}
+
+.plan-checkbox-container:hover .checkmark {
+    background-color: #444444;
+    border-color: #888888;
+}
+
+.plan-checkbox:checked ~ .checkmark {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.plan-checkbox:checked ~ .checkmark:after {
+    display: block;
+}
+
+.plan-checkbox-container .checkmark:after {
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
 }
 
 .table-logo {
-    width: 80px;
-    height: auto;
-    max-height: 40px;
+    width: 100px;
+    height: 50px;
     margin: 0 auto 10px auto;
     object-fit: contain;
+    object-position: center;
     display: block;
 }
 
 .aws-col .table-logo {
     filter: none;
-    max-height: 35px;
     background-color: #ffffff;
-    padding: 6px;
+    padding: 8px;
     border-radius: 6px;
+    box-sizing: border-box;
 }
 
 .hostinger-col .table-logo,

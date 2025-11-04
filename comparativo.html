@@ -10,9 +10,30 @@
     <div class="container">
         <header>
             <h1>Comparativo de Planos VPS</h1>
+            <div class="comparison-controls">
+                <button id="btnComparar" class="btn-comparar" disabled>Comparar Selecionados</button>
+                <button id="btnLimpar" class="btn-limpar" style="display: none;">Mostrar Todos</button>
+            </div>
         </header>
 
-        <div class="comparison-table-container">
+        <div class="table-controls">
+            <button id="btnMaximizado" class="btn-view-mode btn-maximizado active" title="Modo Maximizado - Todas as colunas visíveis" disabled>
+                <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+                <span class="btn-text">Maximizado</span>
+            </button>
+            <button id="btnScroll" class="btn-view-mode btn-scroll" title="Modo Scroll - Scroll lateral responsivo">
+                <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12h18"/>
+                    <path d="M8 7l-5 5 5 5"/>
+                    <path d="M21 7l-5 5 5 5"/>
+                </svg>
+                <span class="btn-text">Scroll</span>
+            </button>
+        </div>
+
+        <div class="comparison-table-container" id="tableContainer">
             <table class="comparison-table">
                 <thead>
                     <tr class="table-header-logos">
@@ -48,6 +69,75 @@
             { key: 'observacoes', label: 'Observações' }
         ];
 
+        // Variável global para armazenar todos os planos
+        let todosPlanos = [];
+        let planosSelecionados = new Set();
+
+        // Função para atualizar estado do botão de comparar
+        function atualizarEstadoBotao() {
+            const btnComparar = document.getElementById('btnComparar');
+            const btnLimpar = document.getElementById('btnLimpar');
+            const numSelecionados = planosSelecionados.size;
+            
+            btnComparar.disabled = numSelecionados < 2;
+            
+            if (numSelecionados >= 2) {
+                btnComparar.textContent = `Comparar ${numSelecionados} Selecionados`;
+            } else {
+                btnComparar.textContent = 'Comparar Selecionados';
+            }
+        }
+
+        // Função para comparar planos selecionados
+        function compararPlanos() {
+            const indices = Array.from(planosSelecionados);
+            if (indices.length < 2) return;
+
+            // Esconder todas as colunas de planos não selecionados
+            todosPlanos.forEach((plano, index) => {
+                if (!indices.includes(index)) {
+                    // Esconder th do header
+                    const th = document.querySelector(`.comparison-table th[data-plan-index="${index}"]`);
+                    if (th) th.style.display = 'none';
+                    
+                    // Esconder todos os td deste plano
+                    const tds = document.querySelectorAll(`.comparison-table td[data-plan-index="${index}"]`);
+                    tds.forEach(td => td.style.display = 'none');
+                } else {
+                    // Mostrar th do header
+                    const th = document.querySelector(`.comparison-table th[data-plan-index="${index}"]`);
+                    if (th) th.style.display = '';
+                    
+                    // Mostrar todos os td deste plano
+                    const tds = document.querySelectorAll(`.comparison-table td[data-plan-index="${index}"]`);
+                    tds.forEach(td => td.style.display = '');
+                }
+            });
+
+            // Mostrar botão limpar
+            document.getElementById('btnLimpar').style.display = 'inline-block';
+        }
+
+        // Função para mostrar todos os planos
+        function mostrarTodos() {
+            // Mostrar todas as colunas de planos
+            todosPlanos.forEach((plano, index) => {
+                const th = document.querySelector(`.comparison-table th[data-plan-index="${index}"]`);
+                if (th) th.style.display = '';
+                
+                const tds = document.querySelectorAll(`.comparison-table td[data-plan-index="${index}"]`);
+                tds.forEach(td => td.style.display = '');
+            });
+            
+            // Esconder botão limpar
+            document.getElementById('btnLimpar').style.display = 'none';
+            
+            // Limpar seleções
+            planosSelecionados.clear();
+            document.querySelectorAll('.plan-checkbox').forEach(cb => cb.checked = false);
+            atualizarEstadoBotao();
+        }
+
         // Carregar JSON e gerar tabela
         async function carregarTabela() {
             try {
@@ -55,7 +145,7 @@
                 const data = await response.json();
                 
                 // Coletar todos os planos em uma lista plana
-                const todosPlanos = [];
+                todosPlanos = [];
                 for (const [provedorKey, provedorData] of Object.entries(data)) {
                     const classeCol = provedorToClass[provedorKey] || '';
                     provedorData.planos.forEach(plano => {
@@ -71,9 +161,10 @@
 
                 // Gerar cabeçalho
                 const thead = document.querySelector('.table-header-logos');
-                todosPlanos.forEach(plano => {
+                todosPlanos.forEach((plano, index) => {
                     const th = document.createElement('th');
-                    th.className = plano.classeCol;
+                    th.className = `${plano.classeCol} plan-column-selectable`;
+                    th.dataset.planIndex = index;
                     
                     let precoHTML = '';
                     if (plano.preco_promocional && plano.preco_promocional !== null) {
@@ -91,11 +182,40 @@
                     }
                     
                     th.innerHTML = `
+                        <label class="plan-checkbox-container">
+                            <input type="checkbox" class="plan-checkbox" data-plan-index="${index}">
+                            <span class="checkmark"></span>
+                        </label>
                         <img src="${plano.logo}" alt="${plano.provedor} Logo" class="table-logo" onerror="this.style.display='none'">
                         <div class="table-plan-name">${plano.nome}</div>
                         ${precoHTML}
                     `;
                     thead.appendChild(th);
+                    
+                    // Tornar toda a coluna clicável
+                    th.addEventListener('click', function(e) {
+                        // Evitar duplo clique se clicar diretamente no checkbox
+                        if (e.target.type === 'checkbox') return;
+                        
+                        const checkbox = th.querySelector('.plan-checkbox');
+                        if (checkbox) {
+                            checkbox.checked = !checkbox.checked;
+                            checkbox.dispatchEvent(new Event('change'));
+                        }
+                    });
+                });
+
+                // Adicionar event listeners aos checkboxes
+                document.querySelectorAll('.plan-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const planIndex = parseInt(this.dataset.planIndex);
+                        if (this.checked) {
+                            planosSelecionados.add(planIndex);
+                        } else {
+                            planosSelecionados.delete(planIndex);
+                        }
+                        atualizarEstadoBotao();
+                    });
                 });
 
                 // Gerar linhas de recursos
@@ -110,9 +230,10 @@
                     tr.appendChild(tdResource);
 
                     // Colunas de dados para cada plano
-                    todosPlanos.forEach(plano => {
+                    todosPlanos.forEach((plano, index) => {
                         const td = document.createElement('td');
                         td.className = plano.classeCol;
+                        td.dataset.planIndex = index;
                         
                         let valor = plano[recurso.key];
                         if (recurso.key === 'memoria_gb') {
@@ -126,10 +247,75 @@
                     tbody.appendChild(tr);
                 });
 
+                // Event listeners para botões
+                document.getElementById('btnComparar').addEventListener('click', compararPlanos);
+                document.getElementById('btnLimpar').addEventListener('click', mostrarTodos);
+
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
             }
         }
+
+        // Variável para controlar o modo de visualização
+        let modoMaximizado = true; // true = maximizado (sem scroll), false = scroll
+
+        // Função para ativar modo maximizado
+        function ativarModoMaximizado() {
+            const container = document.getElementById('tableContainer');
+            const btnMaximizado = document.getElementById('btnMaximizado');
+            const btnScroll = document.getElementById('btnScroll');
+            
+            modoMaximizado = true;
+            
+            // Atualizar classes do container
+            container.classList.remove('scroll-mode');
+            container.classList.add('maximized-mode');
+            
+            // Atualizar estados dos botões
+            btnMaximizado.disabled = true;
+            btnMaximizado.classList.add('active');
+            btnScroll.disabled = false;
+            btnScroll.classList.remove('active');
+        }
+
+        // Função para ativar modo scroll
+        function ativarModoScroll() {
+            const container = document.getElementById('tableContainer');
+            const btnMaximizado = document.getElementById('btnMaximizado');
+            const btnScroll = document.getElementById('btnScroll');
+            
+            modoMaximizado = false;
+            
+            // Atualizar classes do container
+            container.classList.remove('maximized-mode');
+            container.classList.add('scroll-mode');
+            
+            // Atualizar estados dos botões
+            btnScroll.disabled = true;
+            btnScroll.classList.add('active');
+            btnMaximizado.disabled = false;
+            btnMaximizado.classList.remove('active');
+        }
+
+        // Event listeners para os botões
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnMaximizado = document.getElementById('btnMaximizado');
+            const btnScroll = document.getElementById('btnScroll');
+            
+            if (btnMaximizado) {
+                btnMaximizado.addEventListener('click', ativarModoMaximizado);
+            }
+            
+            if (btnScroll) {
+                btnScroll.addEventListener('click', ativarModoScroll);
+            }
+            
+            // Inicializar no modo maximizado
+            const container = document.getElementById('tableContainer');
+            if (container) {
+                container.classList.add('maximized-mode');
+            }
+        });
 
         // Executar quando a página carregar
         document.addEventListener('DOMContentLoaded', carregarTabela);
