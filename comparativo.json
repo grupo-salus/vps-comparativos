@@ -194,7 +194,7 @@
         "largura_banda": "Transferência ilimitada",
         "processador": "Intel Xeon E5-2630 v4 (2,2 GHz)",
         "escalabilidade": "Upgrade de plano (CPU/RAM/disco/transferência)",
-        "diferenciais": "Acesso root e console web; APIs para automação; gráficos de recursos (CPU/RAM/disco/rede); imagens pré-configuradas (WordPress, LAMP, MySQL, phpMyAdmin, Nginx, NodeJS, MariaDB, PostgreSQL); Linux (Debian 10–12, Ubuntu 20.04, Rocky 9, Alma 9) ou Windows Datacenter 2016/2022 com licença inclusa; 1 IP público incluso (IPs extras pagos); proteção DDoS em camada de gerenciamento; porta 25 bloqueada por padrão; SLA 99,9%; data center certificado ISAE 3402; certificação Intel Cloud Technology; pagamento em real; suporte 24/7 em português; Prêmio Reclame Aqui/RA1000.",
+        "diferenciais": "Acesso root e console web; APIs para automação; imagens pré-configuradas (WordPress, LAMP, MySQL, Nginx, NodeJS); Linux ou Windows com licença inclusa; 1 IP público incluso; proteção DDoS; SLA 99,9%; data center certificado ISAE 3402; pagamento em real; suporte 24/7 em português; Prêmio Reclame Aqui/RA1000",
         "observacoes": "Plano inicial para projetos médios/WordPress e PMEs; custo extra de armazenamento: R$ 10 por cada 10 GB/mês; ideal para quem precisa de autonomia e suporte nacional."
       },
       {
@@ -210,7 +210,7 @@
         "largura_banda": "Transferência ilimitada",
         "processador": "Intel Xeon E5-2630 v4 (2,2 GHz)",
         "escalabilidade": "Upgrade de plano imediato via painel",
-        "diferenciais": "Acesso root e console web; APIs; gráficos de recursos; imagens pré-configuradas; Linux ou Windows com licença; 1 IP incluso (IPs adicionais pagos); proteção DDoS; SLA 99,9%; data center ISAE 3402; certificação Intel Cloud Technology; pagamento em real; suporte 24/7 em português.",
+        "diferenciais": "Acesso root e console web; APIs para automação; imagens pré-configuradas (WordPress, LAMP, MySQL, Nginx, NodeJS); Linux ou Windows com licença inclusa; 1 IP público incluso; proteção DDoS; SLA 99,9%; data center certificado ISAE 3402; pagamento em real; suporte 24/7 em português; Prêmio Reclame Aqui/RA1000",
         "observacoes": "Indicado para e-commerces, múltiplos sites e APIs com maior IO e armazenamento; política de porta 25 e UDP conforme segurança do ambiente."
       }
     ]
